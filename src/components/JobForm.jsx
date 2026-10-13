@@ -12,8 +12,8 @@ export default function JobForm({ initial, onSubmit, onCancel, submitLabel = "Sa
     e.preventDefault();
     setSaving(true);
     try {
-      await onSubmit(form);
-      if (!initial) setForm({ ...EMPTY_JOB });
+      const saved = await onSubmit(form);
+      if (!initial && saved !== false) setForm({ ...EMPTY_JOB });
     } finally {
       setSaving(false);
     }

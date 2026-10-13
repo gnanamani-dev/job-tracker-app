@@ -30,14 +30,22 @@ export default function App() {
     load();
   }, [load]);
 
-  // Each handler talks to the Sheet, then reloads so row numbers stay accurate.
+  // Updates and deletes reload the Sheet; adds use the row number returned by the backend.
   const handleAdd = async (job) => {
     try {
-      await addJob(job);
-      await load();
+      setError("");
+      const result = await addJob(job);
+      if (Number.isInteger(result.rowIndex)) {
+        setJobs((current) => [...current, { ...job, rowIndex: result.rowIndex }]);
+      } else {
+        // Keep compatibility with an Apps Script deployment that predates rowIndex responses.
+        await load();
+      }
       setView("applications");
+      return true;
     } catch (err) {
       setError(err.message);
+      return false;
     }
   };
 

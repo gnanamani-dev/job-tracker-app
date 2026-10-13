@@ -95,7 +95,7 @@ function doPost(e) {
         return json_({ error: "Company and role are required." });
       }
       sheet.appendRow(toRow_(body.job));
-      return json_({ ok: true });
+      return json_({ ok: true, rowIndex: sheet.getLastRow() });
     }
 
     const row = Number(body.rowIndex);
