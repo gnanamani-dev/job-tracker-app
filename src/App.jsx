@@ -30,7 +30,8 @@ export default function App() {
     load();
   }, [load]);
 
-  // Updates and deletes reload the Sheet; adds use the row number returned by the backend.
+  // Adds use the row number returned by the backend. Keep successful writes local so
+  // they do not wait for a second full spreadsheet read.
   const handleAdd = async (job) => {
     try {
       setError("");
@@ -52,8 +53,10 @@ export default function App() {
   const handleSave = async (rowIndex, job) => {
     try {
       await updateJob(rowIndex, job);
+      setJobs((current) => current.map((item) =>
+        item.rowIndex === rowIndex ? { ...item, ...job, rowIndex } : item
+      ));
       setEditing(null);
-      await load();
     } catch (err) {
       setError(err.message);
     }
@@ -61,10 +64,15 @@ export default function App() {
 
   const handleDelete = async (job) => {
     if (!window.confirm(`Delete ${job.company} - ${job.role}?`)) return;
+    setJobs((current) => current.filter((item) => item.rowIndex !== job.rowIndex));
     try {
       await deleteJob(job.rowIndex);
-      await load();
+      setJobs((current) => current.map((item) => item.rowIndex > job.rowIndex
+        ? { ...item, rowIndex: item.rowIndex - 1 }
+        : item
+      ));
     } catch (err) {
+      await load();
       setError(err.message);
     }
   };
