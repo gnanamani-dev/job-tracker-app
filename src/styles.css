@@ -8,6 +8,7 @@
   --primary-dark: #2f4ac0;
   --danger: #e03131;
   --applied: #3b5bdb;
+  --pending: #7048e8;
   --interview: #f08c00;
   --offer: #2f9e44;
   --rejected: #868e96;
@@ -29,6 +30,7 @@
   --primary-dark: #5a77ee;
   --danger: #ff6b6b;
   --applied: #6f8cff;
+  --pending: #b197fc;
   --interview: #ffa94d;
   --offer: #51cf66;
   --rejected: #7d8799;
@@ -88,6 +90,7 @@ h2 { font-size: 1.1rem; margin-bottom: 14px; }
 .bar-track { background: var(--bg); border-radius: 99px; height: 10px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
 .bar-applied { background: var(--applied); }
+.bar-pending { background: var(--pending); }
 .bar-interview { background: var(--interview); }
 .bar-offer { background: var(--offer); }
 .bar-rejected { background: var(--rejected); }
@@ -100,6 +103,7 @@ h2 { font-size: 1.1rem; margin-bottom: 14px; }
 /* Badges */
 .badge { padding: 3px 10px; border-radius: 99px; font-size: 0.78rem; font-weight: 600; color: #fff; }
 .badge-applied { background: var(--applied); }
+.badge-pending { background: var(--pending); }
 .badge-interview { background: var(--interview); }
 .badge-offer { background: var(--offer); }
 .badge-rejected { background: var(--rejected); }

@@ -1,4 +1,4 @@
-export const STATUSES = ["Applied", "Interview", "Offer", "Rejected"];
+export const STATUSES = ["Pending", "Applied", "Interview", "Offer", "Rejected"];
 
 export const EMPTY_JOB = {
   company: "",
