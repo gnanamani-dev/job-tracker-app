@@ -154,3 +154,81 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary); o
   .form { grid-template-columns: 1fr; }
   .bar-row { grid-template-columns: 70px 1fr 26px; }
 }
+
+/* ===== Responsive ===== */
+
+/* Tablet and phone */
+@media (max-width: 768px) {
+  .container { margin: 16px auto; padding: 0 14px; gap: 16px; }
+  .card { padding: 16px; }
+  .modal { padding: 18px; }
+
+  .header-inner { padding: 10px 14px; }
+  .header-right { width: 100%; justify-content: space-between; }
+  .nav { flex: 1; overflow-x: auto; }
+  .nav-btn { white-space: nowrap; padding: 8px 10px; font-size: 0.9rem; }
+
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat-value { font-size: 1.6rem; }
+
+  .form { grid-template-columns: 1fr; }
+  .form-actions .btn { flex: 1; }
+
+  .filters .search,
+  .filters select { flex: 1 1 100%; width: 100%; }
+
+  .recent-row { flex-direction: column; align-items: flex-start; }
+  .recent-right { width: 100%; justify-content: space-between; }
+
+  /* 16px stops phones from zooming in when you tap a box */
+  input, select, textarea { font-size: 16px; }
+  .btn-small { padding: 8px 14px; }
+}
+
+/* Phone: turn each table row into a card */
+@media (max-width: 700px) {
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table thead { display: none; }
+
+  .table tr {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    margin-bottom: 12px;
+  }
+  .table tr:hover td { background: transparent; }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 6px 0;
+    border: none;
+    text-align: right;
+  }
+  .table td:empty { display: none; }
+  .table td::before { font-weight: 600; color: var(--muted); text-align: left; flex-shrink: 0; }
+  .table td:nth-child(1)::before { content: "Company"; }
+  .table td:nth-child(2)::before { content: "Role"; }
+  .table td:nth-child(3)::before { content: "Applied"; }
+  .table td:nth-child(4)::before { content: "Status"; }
+  .table td:nth-child(5)::before { content: "Notes"; }
+  .table td:nth-child(6)::before { content: "Link"; }
+
+  .table td.actions {
+    justify-content: flex-end;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .table td.actions::before { content: none; }
+  .notes { max-width: none; }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .brand { font-size: 1.1rem; }
+  .stats { gap: 10px; }
+  .stat-card { padding: 14px; }
+}
