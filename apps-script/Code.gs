@@ -43,7 +43,7 @@ function toRow_(job) {
 // GET ?token=...  -> list all applications
 function doGet(e) {
   try {
-    if (!e.parameter || e.parameter.token !== TOKEN) return json_({ error: "Unauthorized" });
+    if (!e || !e.parameter || e.parameter.token !== TOKEN) return json_({ error: "Unauthorized" });
 
     const values = getSheet_().getDataRange().getValues();
     const jobs = [];
@@ -69,9 +69,23 @@ function doGet(e) {
 // POST {action: add | update | delete, token, ...}
 function doPost(e) {
   const lock = LockService.getScriptLock();
+  let lockAcquired = false;
   try {
     lock.waitLock(10000);
-    const body = JSON.parse(e.postData.contents);
+    lockAcquired = true;
+    if (!e || !e.postData || !e.postData.contents) {
+      return json_({ error: "Request body is required." });
+    }
+
+    let body;
+    try {
+      body = JSON.parse(e.postData.contents);
+    } catch (err) {
+      return json_({ error: "Request body must be valid JSON." });
+    }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return json_({ error: "Request body must be a JSON object." });
+    }
     if (body.token !== TOKEN) return json_({ error: "Unauthorized" });
 
     const sheet = getSheet_();
@@ -90,6 +104,9 @@ function doPost(e) {
     }
 
     if (body.action === "update") {
+      if (!body.job || !body.job.company || !body.job.role) {
+        return json_({ error: "Company and role are required." });
+      }
       sheet.getRange(row, 1, 1, 6).setValues([toRow_(body.job)]);
       return json_({ ok: true });
     }
@@ -103,6 +120,6 @@ function doPost(e) {
   } catch (err) {
     return json_({ error: err.message });
   } finally {
-    lock.releaseLock();
+    if (lockAcquired) lock.releaseLock();
   }
 }
